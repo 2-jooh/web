@@ -24,7 +24,7 @@ public class ImageUploadServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//이미지를 저장할 경로
+		//이미지를 저장할 경로1
 		ServletContext ctx = getServletContext();
 		String imageDir = ctx.getRealPath("/up_images"); //  /:applicaiotn Root경로. 그안에 up_images라는 파일이 어디에있는지 알려줌 
 														 //  실제 파일경로 리턴, => 업로드된 파일(이미지)를 저장할 디렉토리 
