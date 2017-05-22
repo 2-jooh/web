@@ -20,10 +20,11 @@ public class MemberServiceImpl implements MemberService {
 
 	private ArrayList<Member> memberList;
 	private ArrayList<String> checkList;
+	
 	private MemberDao dao;
 	private SqlSessionFactory factory;
+	
 	private static MemberService instance;
-
 	private MemberServiceImpl() throws IOException {
 		factory = SqlSessionFactoryManager.getInstance().getSqlSessionFactory();
 		dao = MemberDaoImpl.getInstance();

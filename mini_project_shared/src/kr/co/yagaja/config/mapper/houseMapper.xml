@@ -32,7 +32,8 @@
 			<result column="picture_one" property="pictureOne"/>
 			<result column="picture_two" property="pictureTwo"/>
 		</association>
-	</resultMap> -->
+	</resultMap>
+ -->
 	
 	
 	

@@ -11,13 +11,15 @@ import kr.co.yagaja.dao.impl.HouseDaoImpl;
 import kr.co.yagaja.util.SqlSessionFactoryManager;
 import kr.co.yagaja.vo.House;
 
-public class HouseService {
+public class HouseServiceImpl {
 	
+	private HouseDao dao;
 	private SqlSessionFactory factory;
 	
-	public HouseService() throws IOException	{
-		SqlSessionFactoryManager manager = SqlSessionFactoryManager.getInstance();
-		factory = manager.getSqlSessionFactory();
+	private static HouseServiceImpl instance;	
+	public HouseServiceImpl() throws IOException	{
+		factory = SqlSessionFactoryManager.getInstance().getSqlSessionFactory();
+		dao = HouseDaoImpl.getInstance();
 	}
 	 
 	
@@ -101,7 +103,7 @@ public class HouseService {
 	
 	
 	public static void main(String[] args) throws IOException	{
-		HouseService exam = new HouseService();
+		HouseServiceImpl exam = new HouseServiceImpl();
 		exam.testHouse();
 	}
 }

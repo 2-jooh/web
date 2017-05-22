@@ -10,15 +10,13 @@ import kr.co.yagaja.exception.LoginFailException;
 import kr.co.yagaja.vo.Member;
 
 public interface MemberService{
-
     
 	
-	 Member loginProcess(String id, String password) throws LoginFailException, IOException ;
+	Member loginProcess(String id, String password) throws LoginFailException, IOException ;	
+			
+	public int joinMemberById(Member member) throws IdDuplicationException, IdNullException, IdCheckSuccessException; 
 	
-		
-     public int joinMemberById(Member member) throws IdDuplicationException, IdNullException, IdCheckSuccessException; 
-
- 	public String idDuplicationCheck(String id) throws IdDuplicationException, IdCheckSuccessException, IdNullException, IOException;
+	public String idDuplicationCheck(String id) throws IdDuplicationException, IdCheckSuccessException, IdNullException, IOException;
 
 
 }
