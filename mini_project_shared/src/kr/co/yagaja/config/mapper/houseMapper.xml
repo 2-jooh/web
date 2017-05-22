@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.yagaja.config.mapper.houseMapper">
+
+
+	<sql id="select-sql">
+		SELECT  house_id,
+				house_type,
+				house_location,
+				house_name,  
+				house_price,
+				picture_no
+		FROM house
+	</sql>
+		
+<!-- 	
+	<resultMap type="house" id="house-resultmap">
+		<id column="house_id" property="houseId"/>
+		<result column="house_type" property="type"/>
+		<result column="house_location" property="location"/>
+		<result column="house_name" property="houseName"/>
+		<result column="house_price" property="price"/>
+		<result column="picture_no" property="pictureNo"/>
+	</resultMap>
+	
+	
+	resultMap의 extends로 기존 resulMap 설정을 상속
+	<resultMap type="house" id="house-picture-resultmap" extends="house-resultmap">
+		<association property="picture" javaType="kr.co.yagaja.vo.Picture">
+			<result column="picture_no" property="pictureNo"/>
+			<result column="picture_main" property="pictureMain"/>
+			<result column="picture_one" property="pictureOne"/>
+			<result column="picture_two" property="pictureTwo"/>
+		</association>
+	</resultMap> -->
+	
+	
+	
+	<sql id="select-house-picture-join">
+		SELECT  h.house_id,
+						h.house_type,
+						h.house_location,
+						h.house_name,  
+						h.house_price,
+						p.picture_no,
+					   	p.picture_main,
+					   	p.picture_one,
+					   	p.picture_two
+		FROM house h, picture p
+	</sql>
+	
+ <!--   하나의 house 정보를 insert하는 dao 메소드  -->	
+	<insert id="insertHouse" parameterType="house">
+			INSERT INTO house
+			VALUES (  #{houseId},
+								#{type},
+								#{location},
+							 	#{houseName},
+								#{price},
+								#{pictureNo}
+						 	)				
+	</insert>
+
+
+ <!--   매개변수로 house의 id를 받아서 update 하는 dao 메소드  -->	
+	<update id="updateHouse" parameterType="house">
+			UPDATE  house
+			SET  	house_type = #{type},
+						house_location = #{location},
+						house_name = #{houseName},
+						house_price = #{price},
+						picture_no= #{pictureNo}
+			WHERE house_id = #{houseId}		
+	</update>
+
+
+<!--  매개변수로 houseId를 받아서 delete 하는 메소드 -->
+	<delete id="deleteHouseById" parameterType="String">
+			DELETE FROM house
+			WHERE house_id LIKE '%'||#{value}||'%'
+	</delete>
+	
+	<!--  HOUSE와 PICTURE JOIN 하는 메소드 -->	
+	
+	<!-- 전체 select -->
+	<select id="selectHouseByList" resultMap="house-picture-resultmap">
+		<include refid="select-house-picture-join"/>
+		WHERE h.picture_no = p.picture_no(+)
+	</select>
+	
+	<!-- location select join -->
+		<select id="selectHouseBylocation" parameterType="String" resultMap="house-picture-resultmap">
+			<include refid="select-house-picture-join"/>   
+				WHERE h.picture_no = p.picture_no(+)
+				AND h.house_location like '%'||#{value}||'%'
+				ORDER BY h.house_id
+		</select>
+	
+	<select id="selectHouseByKeyword" parameterType="hashmap" resultMap="house-resultmap">
+		<include refid="select-house-picture-join"/>
+			<where>
+				<if test="type == null">
+					h.picture_no = p.picture_no(+)
+					AND h.house_location = #{location}
+				</if> 
+				<if test="type != null">
+					h.picture_no = p.picture_no(+)
+					AND h.house_type like '%'||#{value}||'%'
+				</if>
+			</where>
+	</select>
+
+
+</mapper>

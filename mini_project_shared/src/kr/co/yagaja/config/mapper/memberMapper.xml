@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.yagaja.config.mapper.memberMapper">
+
+	 <resultMap id="member_resultmap" type="member">
+
+		<id column="member_id" property="memberId" />
+		<result column="member_password" property="password"/>
+		<result column="member_name" property="memberName" />
+		<result column="member_phone_number" property="phoneNumber" />
+		<result column="member_email" property="email" />
+		<result column="member_point" property="point" />
+		
+	</resultMap> 
+
+	
+	<select id="selectMemberList"  resultMap="member_resultmap">   <!-- 여기서 resultType 만들어야하므로 매핑 -->
+		SELECT
+		member_id,member_password,member_name,member_phone_number,member_email,member_point 
+		FROM member
+	</select>
+
+    <select id="selectMemberById"  resultMap="member_resultmap">   <!-- 여기서 resultType 만들어야하므로 매핑 -->
+		SELECT
+		member_id,member_password,member_name,member_phone_number,member_email,member_point
+		FROM member
+		where member_id=#{value}
+	</select>
+
+
+         <!--속성값에 어떤식으로 넣어야 하나.-->
+    <insert id="insertMember" parameterType="member">
+	INSERT INTO member
+	VALUES (                    #{memberId},
+								#{password},
+								#{memberName},
+								#{phoneNumber},
+								#{email},
+								#{point}
+								
+			)
+	</insert> 
+    
+
+   
+
+
+
+
+</mapper>
